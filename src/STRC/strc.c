@@ -9,6 +9,7 @@
 
 void LILI_main(void) {
     SILL_main();
+    DOLL_main();
 }
 
 void STAK_main(void) {
