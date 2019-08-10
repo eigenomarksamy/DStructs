@@ -13,6 +13,6 @@
 #include "DOLL/doll.h"
 
 extern void SILL_main(void);
-extern void CILL_main(void);
+extern void DOLL_main(void);
 
 #endif /* LILI_H_ */

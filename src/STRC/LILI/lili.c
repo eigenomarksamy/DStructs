@@ -12,17 +12,20 @@ void SILL_main(void) {
     printf("LINKEDLIST Testing:\n\n");
     snode_t * head = NULL;
     int length = 0;
+    int is_circular;
     head = SILL_InitLlist(1);
     printf("Initialized List: ");
     SILL_PrintList(head);
     length = SILL_GetLength(head);
     printf("Length: %d\n", length);
+    SILL_ConvertLineToCirc(&head);
     for (int i = 2; i <= 10; i++)
         SILL_PushBwd(head, i);
     printf("Full        List: ");
     SILL_PrintList(head);
     length = SILL_GetLength(head);
     printf("Length: %d\n", length);
+    SILL_ConvertCircToLine(&head);
     SILL_PushFwd(&head, 10);
     printf("Pushfwd     List: ");
     SILL_PrintList(head);
@@ -75,7 +78,6 @@ void SILL_main(void) {
     printf("Length: %d\n", length);
     printf("Singular    List: ");
     SILL_PrintList(head);
-    int is_circular;
     is_circular = SILL_IsCircular(head);
     printf("Circle: %d\n", is_circular);
     printf("Singular    List: ");
@@ -99,7 +101,6 @@ void SILL_main(void) {
     SILL_DeleteLlist(&head);
 }
 
-void CILL_main(void) {
+void DOLL_main(void) {
 
 }
-

@@ -271,6 +271,8 @@ bool SILL_IsCircular(snode_t * head) {
 }
 
 void SILL_ConvertCircToLine(snode_t ** head) {
+    if (!SILL_IsCircular(*head))
+        return;
     snode_t * temp;
     temp = *head;
     while (temp->next != *head) {
@@ -280,6 +282,8 @@ void SILL_ConvertCircToLine(snode_t ** head) {
 }
 
 void SILL_ConvertLineToCirc(snode_t ** head) {
+    if (SILL_IsCircular(*head))
+        return;
     snode_t * rear;
     rear = *head;
     while (rear->next != NULL) {
