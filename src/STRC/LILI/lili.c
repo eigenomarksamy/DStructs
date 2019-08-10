@@ -10,7 +10,7 @@
 void SILL_main(void) {
     printf("\n----------------------\n");
     printf("LINKEDLIST Testing:\n\n");
-    node_t * head = NULL;
+    snode_t * head = NULL;
     int length = 0;
     head = SILL_InitLlist(1);
     printf("Initialized List: ");
@@ -18,7 +18,7 @@ void SILL_main(void) {
     length = SILL_GetLength(head);
     printf("Length: %d\n", length);
     for (int i = 2; i <= 10; i++)
-    	SILL_PushBwd(head, i);
+        SILL_PushBwd(head, i);
     printf("Full        List: ");
     SILL_PrintList(head);
     length = SILL_GetLength(head);
@@ -63,15 +63,43 @@ void SILL_main(void) {
     SILL_PrintList(head);
     length = SILL_GetLength(head);
     printf("Length: %d\n", length);
-    (void)SLL_SwapLl(&head, 1, 8);
+    (void)SILL_SwapLL(&head, 1, 8);
     printf("Swap        List: ");
     SILL_PrintList(head);
     length = SILL_GetLength(head);
     printf("Length: %d\n", length);
-    (void)SLL_SwapLl(&head, 1, 8);
+    (void)SILL_SwapLL(&head, 1, 8);
     printf("Swap        List: ");
+    SILL_PrintList(head);
+    length = SILL_GetLength(head);
+    printf("Length: %d\n", length);
+    printf("Singular    List: ");
+    SILL_PrintList(head);
+    int is_circular;
+    is_circular = SILL_IsCircular(head);
+    printf("Circle: %d\n", is_circular);
+    printf("Singular    List: ");
+    SILL_PrintList(head);
+    length = SILL_GetLength(head);
+    printf("Length: %d\n", length);
+    SILL_ConvertLineToCirc(&head);
+    is_circular = SILL_IsCircular(head);
+    printf("Circle: %d\n", is_circular);
+    printf("Circular    List: ");
+    SILL_PrintList(head);
+    length = SILL_GetLength(head);
+    printf("Length: %d\n", length);
+    SILL_ConvertCircToLine(&head);
+    is_circular = SILL_IsCircular(head);
+    printf("Circle: %d\n", is_circular);
+    printf("Singular    List: ");
     SILL_PrintList(head);
     length = SILL_GetLength(head);
     printf("Length: %d\n", length);
     SILL_DeleteLlist(&head);
 }
+
+void CILL_main(void) {
+
+}
+
