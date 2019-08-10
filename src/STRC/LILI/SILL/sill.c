@@ -7,27 +7,40 @@
 
 #include "sill.h"
 
-void SILL_PrintList(node_t * head) {
-    node_t * current = head;
+void SILL_PrintList(snode_t * head) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(&head);
+    }
+    snode_t * current = head;
     while (current->next != NULL) {
         printf("%d, ", current->val);
         current = current->next;
     }
     printf("%d", current->val);
     printf("\n");
+    if (is_circular) {
+        SILL_ConvertLineToCirc(&head);
+    }
 }
 
-node_t * SILL_InitLlist(int init_val) {
-    node_t * head = NULL;
-    head = malloc(sizeof(node_t));
+snode_t * SILL_InitLlist(int init_val) {
+    snode_t * head = NULL;
+    head = malloc(sizeof(snode_t));
     head->val = init_val;
     head->next = NULL;
     return head;
 }
 
-void SILL_DeleteLlist(node_t ** head) {
-    node_t * current = *head;
-    node_t * next;
+void SILL_DeleteLlist(snode_t ** head) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(*head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(head);
+    }
+    snode_t * current = *head;
+    snode_t * next;
     while (current != NULL) {
         next = current->next;
         free(current);
@@ -36,39 +49,68 @@ void SILL_DeleteLlist(node_t ** head) {
     *head = NULL;
 }
 
-int SILL_GetLength(node_t * head) {
+int SILL_GetLength(snode_t * head) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(&head);
+    }
     int count = 0;
-    node_t * current = head;
+    snode_t * current = head;
     while (current->next != NULL) {
         count++;
         current = current -> next;
     }
+    if (is_circular) {
+        SILL_ConvertLineToCirc(&head);
+    }
     return count;
 }
 
-void SILL_PushBwd(node_t * head, int val) {
-    node_t * current = head;
+void SILL_PushBwd(snode_t * head, int val) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(&head);
+    }
+    snode_t * current = head;
     while (current->next != NULL) {
         current = current->next;
     }
-    current->next = malloc(sizeof(node_t));
+    current->next = malloc(sizeof(snode_t));
     current->next->val = val;
     current->next->next = NULL;
+    if (is_circular) {
+        SILL_ConvertLineToCirc(&head);
+    }
 }
 
-void SILL_PushFwd(node_t ** head, int val) {
-    node_t * new_node;
-    new_node = malloc(sizeof(node_t));
+void SILL_PushFwd(snode_t ** head, int val) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(*head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(head);
+    }
+    snode_t * new_node;
+    new_node = malloc(sizeof(snode_t));
     new_node->val = val;
     new_node->next = *head;
     *head = new_node;
+    if (is_circular) {
+        SILL_ConvertLineToCirc(head);
+    }
 }
 
-int SILL_PushIdx(node_t ** head, int idx, int val) {
+int SILL_PushIdx(snode_t ** head, int idx, int val) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(*head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(head);
+    }
     int i;
-    node_t * new_node;
-    node_t * current = *head;
-    new_node = malloc(sizeof(node_t));
+    snode_t * new_node;
+    snode_t * current = *head;
+    new_node = malloc(sizeof(snode_t));
     if (idx == 0) {
         SILL_PushFwd(head, val);
     }
@@ -81,12 +123,20 @@ int SILL_PushIdx(node_t ** head, int idx, int val) {
     new_node->val = val;
     new_node->next = current->next;
     current->next = new_node;
+    if (is_circular) {
+        SILL_ConvertLineToCirc(head);
+    }
     return 1;
 }
 
-int SILL_PopHead(node_t ** head) {
+int SILL_PopHead(snode_t ** head) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(*head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(head);
+    }
     int retval = -1;
-    node_t * next_node = NULL;
+    snode_t * next_node = NULL;
     if (*head == NULL) {
         return -1;
     }
@@ -94,31 +144,47 @@ int SILL_PopHead(node_t ** head) {
     retval = (*head)->val;
     free(*head);
     *head = next_node;
+    if (is_circular) {
+        SILL_ConvertLineToCirc(head);
+    }
     return retval;
 }
 
-int SILL_PopLast(node_t * head) {
+int SILL_PopLast(snode_t * head) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(&head);
+    }
     int retval = 0;
     if (head->next == NULL) {
         retval = head->val;
         free(head);
         return retval;
     }
-    node_t * current = head;
+    snode_t * current = head;
     while (current->next->next != NULL) {
         current = current->next;
     }
     retval = current->next->val;
     free(current->next);
     current->next = NULL;
+    if (is_circular) {
+        SILL_ConvertLineToCirc(&head);
+    }
     return retval;
 }
 
-int SILL_PopIdx(node_t ** head, int idx) {
+int SILL_PopIdx(snode_t ** head, int idx) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(*head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(head);
+    }
     int i = 0;
     int retval = -1;
-    node_t * current = *head;
-    node_t * temp_node = NULL;
+    snode_t * current = *head;
+    snode_t * temp_node = NULL;
     if (idx == 0) {
         return SILL_PopHead(head);
     }
@@ -132,14 +198,22 @@ int SILL_PopIdx(node_t ** head, int idx) {
     retval = temp_node->val;
     current->next = temp_node->next;
     free(temp_node);
+    if (is_circular) {
+        SILL_ConvertLineToCirc(head);
+    }
     return retval;
 }
 
-int SILL_PopVal(node_t ** head, int val) {
+int SILL_PopVal(snode_t ** head, int val) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(*head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(head);
+    }
     int retval = -1;
-    node_t * current = *head;
-    node_t * prev = NULL;
-    node_t * temp_node = NULL;
+    snode_t * current = *head;
+    snode_t * prev = NULL;
+    snode_t * temp_node = NULL;
     if (val == current->val) {
         return SILL_PopHead(head);
     }
@@ -154,10 +228,18 @@ int SILL_PopVal(node_t ** head, int val) {
     retval = temp_node->val;
     prev->next = temp_node->next;
     free(temp_node);
+    if (is_circular) {
+        SILL_ConvertLineToCirc(head);
+    }
     return retval;
 }
 
-int SLL_SwapLl(node_t ** head, int idx_1, int idx_2) {
+int SILL_SwapLL(snode_t ** head, int idx_1, int idx_2) {
+    bool is_circular;
+    is_circular = (SILL_IsCircular(*head) == 1) ? 1 : 0;
+    if (is_circular) {
+        SILL_ConvertCircToLine(head);
+    }
     int retval = 1;
     int val;
     int idx_lo, idx_hi;
@@ -167,6 +249,50 @@ int SLL_SwapLl(node_t ** head, int idx_1, int idx_2) {
     (void)SILL_PushIdx(head, idx_hi, val);
     val = SILL_PopIdx(head, idx_hi);
     (void)SILL_PushIdx(head, idx_lo-1, val);
+    if (is_circular) {
+        SILL_ConvertLineToCirc(head);
+    }
     return retval;
 }
 
+bool SILL_IsCircular(snode_t * head) {
+    bool retval = 0;
+    if (head == NULL) {
+        retval = 1;
+    }
+    snode_t * node = head->next;
+    while (node != NULL && node != head) {
+        node = node->next;
+    }
+    if (node == head) {
+        retval = 1;
+    }
+    return retval;
+}
+
+void SILL_ConvertCircToLine(snode_t ** head) {
+    snode_t * temp;
+    temp = *head;
+    while (temp->next != *head) {
+        temp = temp->next;
+    }
+    temp->next = NULL;
+}
+
+void SILL_ConvertLineToCirc(snode_t ** head) {
+    snode_t * rear;
+    rear = *head;
+    while (rear->next != NULL) {
+        rear = rear->next;
+    }
+    rear->next = *head;
+}
+
+sill_t SILL_GetType(snode_t * head) {
+    if (SILL_IsCircular(head) == 1) {
+        return CIRCULAR_S;
+    }
+    else {
+        return LINEAR_S;
+    }
+}
