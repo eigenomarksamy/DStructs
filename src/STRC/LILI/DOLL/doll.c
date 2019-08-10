@@ -9,7 +9,7 @@
 
 void DOLL_PrintList(dnode_t * node) {
     bool is_circular;
-    is_circular = (SILL_IsCircular(node) == 1) ? 1 : 0;
+    is_circular = (DOLL_IsCircular(node) == 1) ? 1 : 0;
     if (is_circular) {
         DOLL_ConvertCircToLine(&node);
     }
