@@ -316,5 +316,6 @@ void DOLL_ConvertLineToCirc(dnode_t ** head) {
     while (rear->next != NULL) {
         rear = rear->next;
     }
-    rear->next = *head;
+    rear->next = (*head);
+    (*head)->prev = rear;
 }
