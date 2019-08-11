@@ -64,7 +64,7 @@ int SILL_GetLength(snode_t * head) {
     if (is_circular) {
         SILL_ConvertLineToCirc(&head);
     }
-    return count;
+    return count+1;
 }
 
 void SILL_PushBwd(snode_t * head, int val) {
